@@ -80,7 +80,7 @@ angular.module('autocomplete').directive('autocomplete', function() {
       // selecting a suggestion with RIGHT ARROW or ENTER
       $scope.select = function(suggestion){
         if(suggestion){
-          $scope.searchParam = suggestion.Name;
+          $scope.searchParam = suggestion;
           $scope.searchFilter = suggestion;
           if($scope.onSelect)
             $scope.onSelect(suggestion);
