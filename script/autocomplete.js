@@ -1,8 +1,8 @@
 /* --- Made by justgoscha and licensed under MIT license --- */
+angular.module('autocomplete', []);
 
-var app = angular.module('autocomplete', []);
 
-app.directive('autocomplete', function() {
+angular.module('autocomplete').directive('autocomplete', function() {
   var index = -1;
 
   return {
@@ -80,7 +80,7 @@ app.directive('autocomplete', function() {
       // selecting a suggestion with RIGHT ARROW or ENTER
       $scope.select = function(suggestion){
         if(suggestion){
-          $scope.searchParam = suggestion;
+          $scope.searchParam = suggestion.Name;
           $scope.searchFilter = suggestion;
           if($scope.onSelect)
             $scope.onSelect(suggestion);
@@ -99,7 +99,7 @@ app.directive('autocomplete', function() {
 
       // Default atts
       scope.attrs = {
-        "placeholder": "start typing...",
+        "placeholder": "",
         "class": "",
         "id": "",
         "inputclass": "",
@@ -197,7 +197,6 @@ app.directive('autocomplete', function() {
           case key.right:
           case key.enter:
           case key.tab:
-
             index = scope.getIndex();
             // scope.preSelectOff();
             if(index !== -1) {
@@ -240,16 +239,16 @@ app.directive('autocomplete', function() {
               suggestion\
               ng-repeat="suggestion in suggestions | filter:searchFilter | orderBy:\'toString()\' track by $index"\
               index="{{ $index }}"\
-              val="{{ suggestion }}"\
+              val="{{ suggestion.Id }}"\
               ng-class="{ active: ($index === selectedIndex) }"\
               ng-click="select(suggestion)"\
-              ng-bind-html="suggestion | highlight:searchParam"></li>\
+              ng-bind-html="suggestion.Name | highlight:searchParam"></li>\
           </ul>\
         </div>'
   };
 });
 
-app.filter('highlight', ['$sce', function ($sce) {
+angular.module('autocomplete').filter('highlight', ['$sce', function ($sce) {
   return function (input, searchParam) {
     if (typeof input === 'function') return '';
     if (searchParam) {
@@ -266,7 +265,7 @@ app.filter('highlight', ['$sce', function ($sce) {
   };
 }]);
 
-app.directive('suggestion', function(){
+angular.module('autocomplete').directive('suggestion', function(){
   return {
     restrict: 'A',
     require: '^autocomplete', // ^look for controller on parents element
